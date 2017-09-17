@@ -7,21 +7,25 @@ class Order extends React.Component {
     this.renderOrder = this.renderOrder.bind(this);
   }
   renderOrder(key) {
+    console.log("renderOrder", key);
     const fish = this.props.fishes[key];
+    console.log("renderOrder fish", fish);
     const count = this.props.order[key];
+    const removeButton = <button onClick={() => this.props.removeFromOrder(key)}>&times;</button>
 
     if(!fish || fish.status === 'unavailable') {
-      return <li key={key}>Sorry, {fish ? fish.name : 'this fish'} is no longer avalible!</li>
+      return <li key={key}>Sorry, {fish ? fish.name : 'this fish'} is no longer available! {removeButton}</li>
     };
 
     return(
       <li key={key}>
-        <span>{count}lbs {fish.name}</span>
+        <span>{count}lbs {fish.name} {removeButton}</span>
         <span className='price'>{formatPrice(count * fish.price)}</span>
       </li>
     );
   }
   render() {
+    console.log("Order.render", this.props);
     const orderIds = Object.keys(this.props.order);
     const total = orderIds.reduce((prevTotal, key) => {
       const fish = this.props.fishes[key];
